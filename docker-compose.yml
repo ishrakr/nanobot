@@ -3,7 +3,7 @@ x-common-config: &common-config
     context: .
     dockerfile: Dockerfile
   volumes:
-    - ~/.nanobot:/root/.nanobot
+    - nanobot-data:/root/.nanobot
 
 services:
   nanobot-gateway:
@@ -29,3 +29,14 @@ services:
     command: ["status"]
     stdin_open: true
     tty: true
+
+  browser:
+    image: browserless/chrome:latest
+    container_name: zeroclaw-browser
+    restart: unless-stopped
+    environment:
+      - MAX_CONCURRENT_SESSIONS=3
+      - PREBOOT_CHROME=true
+
+volumes:
+  nanobot-data:
